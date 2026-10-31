@@ -1,4 +1,4 @@
-export const DEFAULT_THEME = { bg: '#f4f7fb', wall: '#1c2b42', ball: '#3a74d9', target: '#df5a45', path: '#5c9f74' };
+export const DEFAULT_THEME = { bg: '#170b25', wall: '#ffd166', ball: '#d8c4ff', target: '#ff7a18', path: '#7ed957' };
 
 export function readTheme() {
   const styles = getComputedStyle(document.documentElement);

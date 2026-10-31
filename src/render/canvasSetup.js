@@ -11,11 +11,18 @@ export function setupCanvas(canvas) {
 }
 
 export function observeResize(canvas, onResize) {
+  if (!globalThis.ResizeObserver) {
+    const resize = () => onResize(setupCanvas(canvas));
+    globalThis.addEventListener('resize', resize);
+    return () => globalThis.removeEventListener('resize', resize);
+  }
   let frame = 0;
+  const request = globalThis.requestAnimationFrame?.bind(globalThis) ?? (callback => setTimeout(callback, 16));
+  const cancel = globalThis.cancelAnimationFrame?.bind(globalThis) ?? clearTimeout;
   const observer = new ResizeObserver(() => {
-    cancelAnimationFrame(frame);
-    frame = requestAnimationFrame(() => onResize(setupCanvas(canvas)));
+    cancel(frame);
+    frame = request(() => onResize(setupCanvas(canvas)));
   });
   observer.observe(canvas);
-  return () => { cancelAnimationFrame(frame); observer.disconnect(); };
+  return () => { cancel(frame); observer.disconnect(); };
 }
