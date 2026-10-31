@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f7fb" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101723" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233a74d9'/%3E%3Cpath d='M16 16h32v32H16zM16 32h16v16M32 16v16h16' fill='none' stroke='white' stroke-width='5'/%3E%3C/svg%3E">
+  <title>Show the Way</title>
+  <link rel="stylesheet" href="./styles/main.css">
+</head>
+<body>
+  <main id="app">
+    <div id="hud" class="hud"></div>
+    <div id="game-area">
+      <canvas id="game-canvas" aria-label="Maze game board"></canvas>
+      <div id="dpad" class="dpad" role="group" aria-label="Directional controls">
+        <button data-dir="UP" class="up">↑</button><button data-dir="LEFT" class="left">←</button><button data-dir="RIGHT" class="right">→</button><button data-dir="DOWN" class="down">↓</button>
+      </div>
+    </div>
+    <div id="toolbar" class="toolbar"></div>
+    <p id="seed" class="seed"></p>
+    <div id="screens"></div>
+  </main>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+export function createArrivePulse(){let start=-Infinity;return{trigger(now=performance.now()){start=now;},getRadius(now=performance.now()){const age=now-start;return age>=0&&age<500?age/500:0;},isDone(now=performance.now()){return now-start>=500;}};}

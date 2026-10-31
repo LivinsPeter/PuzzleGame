@@ -1,0 +1,5 @@
+export function createBurst(originX,originY,options={}) {
+  const reduced=options.reducedMotion ?? globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches;const count=options.canvasSize<400?20:40;const rng=options.rng||Math;const colors=options.colors||['#df5a45','#3a74d9'];
+  const particles=reduced?[]:Array.from({length:count},()=>{const angle=rng.next()*Math.PI*2;const speed=40+rng.next()*100;return{x:originX,y:originY,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:900+rng.next()*500,age:0,color:colors[rng.nextInt?rng.nextInt(colors.length):Math.floor(rng.next()*colors.length)]};});
+  return { particles,update(dtMs){for(const p of particles){p.age+=dtMs;p.x+=p.vx*dtMs/1000;p.y+=p.vy*dtMs/1000;p.vy+=180*dtMs/1000;}},draw(ctx){for(const p of particles.filter(p=>p.age<p.life)){ctx.globalAlpha=1-p.age/p.life;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,3,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;},isDone(){return !particles.length||particles.every(p=>p.age>=p.life)} };
+}

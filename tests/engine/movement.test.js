@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createFixtureMaze } from '../../src/core/fixtures.js';
+import { createMovement, getVisualPosition, requestMove, updateMovement } from '../../src/engine/movement.js';
+test('moves and interpolates across a carved passage', () => { const maze = createFixtureMaze(); const start = Object.freeze({ r:0,c:0 }); let state = requestMove(createMovement(start), maze, 'RIGHT'); assert.equal(state.moving, true); assert.deepEqual(state.to,{r:0,c:1}); state = updateMovement(state,maze,60); assert.equal(state.progress,.5); assert.ok(getVisualPosition(state).x > 0); state = updateMovement(state,maze,60); assert.equal(state.moving,false); assert.deepEqual(state.pos,{r:0,c:1}); });
+test('reports blocked moves and keeps only the latest buffered input', () => { const maze=createFixtureMaze(); let state=requestMove(createMovement({r:0,c:0}),maze,'UP'); assert.equal(state.lastEvent,'blocked'); state=requestMove(createMovement({r:0,c:0}),maze,'RIGHT'); state=requestMove(state,maze,'DOWN'); state=requestMove(state,maze,'RIGHT'); state=updateMovement(state,maze,120); assert.equal(state.pending,null); assert.equal(state.lastEvent,'step'); assert.deepEqual(state.to,{r:0,c:2}); });

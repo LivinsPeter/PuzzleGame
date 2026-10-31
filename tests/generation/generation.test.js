@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createRng } from '../../src/generation/rng.js';
+import { generateMaze } from '../../src/generation/generator.js';
+import { solveMaze } from '../../src/generation/solver.js';
+import { validateMaze } from '../../src/generation/validate.js';
+import { LEVELS } from '../../src/generation/levels.js';
+test('rng is deterministic and shuffle is immutable',()=>{const a=createRng('x'),b=createRng('x');assert.deepEqual(Array.from({length:20},()=>a.next()),Array.from({length:20},()=>b.next()));const list=[1,2,3];assert.deepEqual(createRng(1).shuffle(list).sort(),list);assert.deepEqual(list,[1,2,3]);});
+test('generated mazes are valid and solvable',()=>{for(const level of LEVELS)for(let seed=1;seed<=200;seed+=1){const maze=generateMaze({...level,seed});assert.equal(validateMaze(maze).valid,true);assert.ok(solveMaze(maze));}});
+test('generation is deterministic and range checked',()=>{const a=generateMaze({rows:11,cols:11,seed:1,targetMode:'center',braid:0});const b=generateMaze({rows:11,cols:11,seed:1,targetMode:'center',braid:0});assert.deepEqual([...a.cells],[...b.cells]);assert.throws(()=>generateMaze({rows:3,cols:4,seed:1}),RangeError);});

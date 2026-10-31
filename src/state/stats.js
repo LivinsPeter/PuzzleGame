@@ -1,0 +1,3 @@
+export function computeStars(optimalMoves, playerMoves) { if (optimalMoves < 1 || playerMoves < 1) throw new RangeError('Moves must be positive'); const ratio=optimalMoves/playerMoves; return ratio >= .9 ? 3 : ratio >= .6 ? 2 : 1; }
+export function isNewBest(previousBest, result) { return previousBest ? { time:result.timeMs < previousBest.timeMs, moves:result.moves < previousBest.moves } : { time:true, moves:true }; }
+export function mergeBest(previousBest, result) { return previousBest ? { timeMs:Math.min(previousBest.timeMs,result.timeMs), moves:Math.min(previousBest.moves,result.moves) } : { timeMs:result.timeMs,moves:result.moves }; }

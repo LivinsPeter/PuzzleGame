@@ -126,7 +126,7 @@ export const DIRECTIONS = {
 | core/rules.js | isAtTarget | `(maze, pos) -> boolean` |
 | engine/movement.js | createMovement | `(startPos, options?) -> MovementState` |
 | engine/movement.js | requestMove | `(state, maze, dirName) -> MovementState` |
-| engine/movement.js | updateMovement | `(state, dtMs) -> MovementState` |
+| engine/movement.js | updateMovement | `(state, maze, dtMs) -> MovementState` |
 | engine/movement.js | getVisualPosition | `(state) -> { x, y }` in fractional cell units (x = column, y = row) |
 | generation/generator.js | generateMaze | `({ rows, cols, seed }) -> Maze` |
 | generation/solver.js | solveMaze | `(maze) -> Array<{r,c}> \| null` |
