@@ -10,16 +10,19 @@ button:focus-visible { outline:2px solid var(--ball); outline-offset:3px; }
 #game-canvas { width:min(92vw,70vh,640px); aspect-ratio:1; display:block; touch-action:none; }
 .hud, .toolbar { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; min-height:28px; }
 .hud-item, .toolbar button, .level-select { background:var(--surface); border:1px solid color-mix(in srgb, var(--wall) 48%, transparent); border-radius:10px; padding:8px 12px; box-shadow:0 2px 8px #00000040; }
+.level-select { min-height:44px; color:var(--text); font:inherit; cursor:pointer; }
+.level-select option { background:var(--surface); color:var(--text); }
+.level-select:focus-visible { outline:2px solid var(--ball); outline-offset:3px; }
 .hud-item { font-variant-numeric:tabular-nums; font-size:.9rem; }
 .toolbar button, .dpad button { min-width:44px; min-height:44px; cursor:pointer; }
 .seed { color:var(--muted); font-size:.8rem; margin:0; overflow-wrap:anywhere; text-align:center; }
 .dpad { display:none; grid-template-columns:repeat(3,64px); grid-template-rows:repeat(3,64px); gap:5px; }
 .dpad button { min-width:64px; min-height:64px; border:1px solid color-mix(in srgb, var(--wall) 48%, transparent); border-radius:16px; background:var(--surface); font-size:2rem; box-shadow:0 4px 14px #0006; -webkit-tap-highlight-color:transparent; touch-action:manipulation; }
 .dpad .up { grid-column:2; }.dpad .left { grid-column:1; grid-row:2; }.dpad .right { grid-column:3; grid-row:2; }.dpad .down { grid-column:2; grid-row:3; }.dpad .is-pressed { transform:scale(.94); background:var(--ball); color:white; }
-.screen { background:color-mix(in srgb, var(--bg) 88%, transparent); inset:0; position:fixed; display:grid; place-items:center; padding:20px; opacity:1; transition:opacity 150ms; z-index:2; }
-.dialog { width:min(92vw,480px); background:var(--surface); border:1px solid var(--wall); border-radius:18px; padding:24px; box-shadow:0 16px 60px #0009; text-align:center; }
-.menu-art { display:block; width:100%; border:1px solid color-mix(in srgb, var(--wall) 65%, transparent); border-radius:13px; margin:0 auto 18px; box-shadow:0 8px 24px #0006; }
-.dialog h1,.dialog h2 { margin-top:0; }.dialog button { min-height:44px; margin:5px; border:0; border-radius:9px; background:var(--ball); color:white; padding:9px 15px; }.level-list { display:grid; gap:7px; margin:14px 0; }.level-list button { width:100%; text-align:left; background:transparent; color:var(--text); border:1px solid color-mix(in srgb,var(--wall) 25%,transparent); }.level-list button.current { border-color:var(--ball); background:color-mix(in srgb,var(--ball) 13%,transparent); }.stars { color:var(--target); font-size:1.6rem; }.how-to { color:var(--muted); font-size:.9rem; }
+.screen { background:color-mix(in srgb, var(--bg) 88%, transparent); inset:0; position:fixed; display:grid; place-items:center; padding:max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); opacity:1; transition:opacity 150ms; z-index:2; }
+.dialog { width:min(92vw,480px); max-height:calc(100vh - 32px); max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 24px); overflow-y:auto; overscroll-behavior:contain; background:var(--surface); border:1px solid var(--wall); border-radius:18px; padding:clamp(14px,4vw,24px); box-shadow:0 16px 60px #0009; text-align:center; }
+.menu-art { display:block; width:100%; height:clamp(88px,20vh,170px); object-fit:cover; border:1px solid color-mix(in srgb, var(--wall) 65%, transparent); border-radius:13px; margin:0 auto 12px; box-shadow:0 8px 24px #0006; }
+.dialog h1,.dialog h2 { margin-top:0; }.dialog button { min-height:44px; margin:3px; border:0; border-radius:9px; background:var(--ball); color:white; padding:9px 15px; }.level-list { display:grid; gap:5px; margin:10px 0; }.level-list button { width:100%; min-height:42px; text-align:left; background:transparent; color:var(--text); border:1px solid color-mix(in srgb,var(--wall) 25%,transparent); }.level-list button.current { border-color:var(--ball); background:color-mix(in srgb,var(--ball) 13%,transparent); }.stars { color:var(--target); font-size:1.6rem; }.how-to { color:var(--muted); font-size:.9rem; }
 @media (hover:none) and (pointer:coarse) { .dpad { display:grid; padding-bottom:env(safe-area-inset-bottom); } }
 body.show-dpad .dpad { display:grid; }
 @media (orientation:landscape) and (max-height:500px) { #app { padding:8px; gap:6px; } #game-canvas { width:min(70vw,70vh,640px); } .dpad { transform:scale(.8); transform-origin:center; } }
