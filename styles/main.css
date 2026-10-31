@@ -1,0 +1,50 @@
+:root {
+  color-scheme: light;
+  --bg: #f3f6fb;
+  --wall: #263247;
+  --ball: #ef5b5b;
+  --target: #35a879;
+  --path: #9aa8bc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #111827;
+    --wall: #dbe5f3;
+    --ball: #ff7777;
+    --target: #56d6a1;
+    --path: #63738a;
+  }
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#game-canvas {
+  display: block;
+  width: min(92vw, 70vh, 640px);
+  aspect-ratio: 1;
+  touch-action: none;
+}
