@@ -5,6 +5,7 @@ html, body { margin:0; min-height:100%; }
 body { background:radial-gradient(circle at 50% -10%, #5c2c70 0, var(--bg) 42%, #0c0614 130%); color:var(--text); font:16px system-ui,sans-serif; display:flex; justify-content:center; user-select:none; }
 button { color:inherit; font:inherit; }
 button:focus-visible { outline:2px solid var(--ball); outline-offset:3px; }
+button:disabled { cursor:not-allowed; opacity:.55; }
 #app { width:100%; min-height:100vh; display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px max(16px, env(safe-area-inset-left)); }
 #game-area { display:flex; align-items:center; justify-content:center; gap:18px; width:100%; }
 #game-canvas { width:min(92vw,70vh,640px); aspect-ratio:1; display:block; touch-action:none; }
