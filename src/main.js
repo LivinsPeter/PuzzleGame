@@ -26,18 +26,19 @@ function bootstrap() {
   const canvas=document.querySelector('#game-canvas'); const seedNode=document.querySelector('#seed'); const storage=createStorage(); const settings=storage.loadSettings();
   let canvasInfo=setupCanvas(canvas); let theme=readTheme(); let layout; let state=initialGame(); let movement=createMovement(state.maze.entrance); let hint=settings.hintsEnabled; let burst=null; let lastTimerPaint=0; let needsRender=true; let hiddenTimerRunning=false;
   const trail=createTrail(); const shake=createShake(); const pulse=createArrivePulse(); const hud=createHud(document.querySelector('#hud'));
-  const screens=createScreens(document.querySelector('#screens'),{onPlay:startLevel,onReplay:replay,onNext:advance,onMenu:menu});
-  createToolbar(document.querySelector('#toolbar'),{onNewMaze:newMaze,onRestart:replay,onToggleHint:toggleHint});
+  const screens=createScreens(document.querySelector('#screens'),{onPlay:startLevel,onReplay:replay,onNext:advance,onMenu:menu,onExit:exitGame});
+  const toolbar=createToolbar(document.querySelector('#toolbar'),LEVELS,state.levelIndex,{onLevelSelect:startLevel,onNewMaze:newMaze,onRestart:replay,onToggleHint:toggleHint,onMenu:menu});
   const loop=createLoop(onFrame); attachKeyboard(window,handleDirection); attachDpad(document.querySelector('#dpad'),handleDirection); attachSwipe(canvas,handleDirection); observeResize(canvas,info=>{canvasInfo=info;needsRender=true;});
   document.addEventListener('visibilitychange',()=>{const now=performance.now();if(document.hidden&&state.phase==='playing'){hiddenTimerRunning=state.timer.running;state={...state,timer:stopTimer(state.timer,now)};}if(!document.hidden&&hiddenTimerRunning){state={...state,timer:startTimer(state.timer,now)};hiddenTimerRunning=false;}});
   showMenu(); loop.start();
   function initialGame(){const params=new URLSearchParams(location.search);const level=Math.max(0,Math.min(LEVELS.length-1,(Number(params.get('level'))||1)-1));return createGame(level,params.get('seed')??undefined);}
-  function configure(){layout=computeLayout(canvasInfo.width,canvasInfo.height,state.maze.rows,state.maze.cols,16);theme=readTheme();seedNode.textContent=`Seed: ${state.seed}`;hud.setLevel(getLevelConfig(state.levelIndex,state.seed).name);hud.setMoves(state.moves);hud.setTime(formatTime(0));needsRender=true;}
-  function showMenu(){configure();screens.showMenu(LEVELS,LEVELS.map((_,index)=>storage.loadBest(index)));}
+  function configure(){layout=computeLayout(canvasInfo.width,canvasInfo.height,state.maze.rows,state.maze.cols,16);theme=readTheme();seedNode.textContent=`Seed: ${state.seed}`;hud.setLevel(getLevelConfig(state.levelIndex,state.seed).name);hud.setMoves(state.moves);hud.setTime(formatTime(0));toolbar.setLevel(state.levelIndex);needsRender=true;}
+  function showMenu(){configure();screens.showMenu(LEVELS,LEVELS.map((_,index)=>storage.loadBest(index)),state.levelIndex);}
   function startLevel(index=state.levelIndex){if(index!==state.levelIndex)state=createGame(index);state=beginPlay(state);movement=createMovement(state.maze.entrance);trail.clear();screens.hide();configure();}
   function replay(){state=restartLevel(state);movement=createMovement(state.maze.entrance);trail.clear();screens.hide();configure();}
   function advance(){state=nextLevel(state,true);movement=createMovement(state.maze.entrance);trail.clear();screens.hide();configure();}
   function menu(){state=returnToMenu(state);showMenu();}
+  function exitGame(){screens.showExit();}
   function newMaze(){const wasPlaying=state.phase==='playing';state=createGame(state.levelIndex,String(Date.now()));if(wasPlaying)startLevel();else showMenu();}
   function toggleHint(){hint=!hint;storage.saveSettings({hintsEnabled:hint});needsRender=true;}
   function handleDirection(direction){if(state.phase!=='playing')return;movement=requestMove(movement,state.maze,direction);processEvent(performance.now());needsRender=true;}
